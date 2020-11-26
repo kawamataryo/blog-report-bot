@@ -14,7 +14,7 @@ export interface QiitaAPIV2JSONSchema {
   comment: Comment;
   expanded_template: ExpandedTemplate;
   group: Group;
-  item: Item;
+  item: QiitaItem;
   like: Like;
   project: Project;
   reaction: EmojiReaction;
@@ -147,13 +147,13 @@ export interface Comment {
    * Date-time when this data was updated
    */
   updated_at: string;
-  user: User;
+  user: QiitaUser;
   [k: string]: any;
 }
 /**
  * A Qiita user (a.k.a. account)
  */
-export interface User {
+export interface QiitaUser {
   /**
    * self-description
    */
@@ -275,7 +275,7 @@ export interface Group {
 /**
  * Represents an item posted from a user
  */
-export interface Item {
+export interface QiitaItem {
   /**
    * Item body in HTML
    */

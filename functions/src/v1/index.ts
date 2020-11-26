@@ -1,7 +1,25 @@
-import * as functions from 'firebase-functions';
-import {QiitaClient} from "../lib/qiitaClient";
+import * as functions from "firebase-functions";
+import { QiitaClient } from "../lib/qiitaClient";
+import { ZennClient } from "../lib/zennClient";
+import { NoteClient } from "../lib/noteClient";
+import { responseHandler } from "../lib/responseHandler";
 
-export const qiita = functions.https.onRequest(async (_request, response) => {
-  const index = await new QiitaClient('ryo2132').fetchKpi()
-  response.send(index)
-});
+const REGION = "asia-northeast1";
+
+export const qiita = functions
+  .region(REGION)
+  .https.onRequest(async (request, response) => {
+    await responseHandler(request, response, QiitaClient);
+  });
+
+export const zenn = functions
+  .region(REGION)
+  .https.onRequest(async (request, response) => {
+    await responseHandler(request, response, ZennClient);
+  });
+
+export const note = functions
+  .region(REGION)
+  .https.onRequest(async (request, response) => {
+    await responseHandler(request, response, NoteClient);
+  });
