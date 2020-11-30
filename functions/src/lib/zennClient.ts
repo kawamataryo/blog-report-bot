@@ -28,19 +28,23 @@ export class ZennClient implements ApiClient {
     const response = await axios.get<ZennMyArticlesResponse>(
       `/users/${this.userName}/articles`
     );
-    return response.data.articles;
+    return response.data.articles ?? [];
   }
 
   private async fetchMyFollowers(): Promise<Follower[]> {
     let followers = [] as Follower[];
     let hasNextPage = true;
 
-    for (let page = 1; hasNextPage; page++) {
-      const response = await axios.get<ZennMyFollowersResponse>(
-        `/users/${this.userName}/followers?page=${page}`
-      );
-      hasNextPage = !!response.data.next_page;
-      followers = [...followers, ...response.data.users];
+    try {
+      for (let page = 1; hasNextPage; page++) {
+        const response = await axios.get<ZennMyFollowersResponse>(
+          `/users/${this.userName}/followers?page=${page}`
+        );
+        hasNextPage = !!response.data.next_page;
+        followers = [...followers, ...response.data.users];
+      }
+    } catch (e) {
+      console.error(e);
     }
 
     return followers;

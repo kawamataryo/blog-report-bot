@@ -20,9 +20,9 @@ export class QiitaClient implements ApiClient {
     const lgtmCount = this.tallyUpLgtmCount(items);
 
     return {
-      postCount: user.items_count,
+      postCount: user.items_count ?? 0,
       lgtmCount: lgtmCount,
-      followerCount: user.followers_count,
+      followerCount: user.followers_count ?? 0,
     };
   }
 
@@ -31,7 +31,10 @@ export class QiitaClient implements ApiClient {
     return response.data;
   }
 
-  private async fetchAllItems(user: QiitaUser) {
+  private async fetchAllItems(user: QiitaUser | null) {
+    if (!user) {
+      return [];
+    }
     // 最大ページ数
     const maxPage = Math.ceil(user.items_count / this.PER_PAGE);
     // 投稿一覧の取得

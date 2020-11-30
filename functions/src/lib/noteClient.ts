@@ -17,9 +17,9 @@ export class NoteClient implements ApiClient {
     const contents = await this.fetchAllContent();
 
     return {
-      postCount: user.noteCount,
+      postCount: user.noteCount ?? 0,
       likeCount: this.tallyUpLikeCount(contents),
-      followerCount: user.followerCount,
+      followerCount: user.followerCount ?? 0,
     };
   }
 
@@ -33,11 +33,17 @@ export class NoteClient implements ApiClient {
   private async fetchAllContent() {
     let contents = [] as NoteContent[];
     let isLastPage = false;
-    for (let page = 1; !isLastPage; page++) {
-      const responseData = await this.fetchContents(page);
-      isLastPage = responseData.isLastPage;
-      contents = [...contents, ...responseData.contents];
+
+    try {
+      for (let page = 1; !isLastPage; page++) {
+        const responseData = await this.fetchContents(page);
+        isLastPage = responseData.isLastPage;
+        contents = [...contents, ...responseData.contents];
+      }
+    } catch (e) {
+      console.log(e);
     }
+
     return contents;
   }
 
