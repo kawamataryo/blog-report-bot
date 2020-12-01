@@ -7,5 +7,4 @@ Cloud functions for aggregate blog metrics.
 - [Qiita](https://qiita.com/)
 - [note](https://note.com/)
 - [Zenn](https://zenn.dev/)
-
-
+- [Twitter](https://developer.twitter.com/en)
