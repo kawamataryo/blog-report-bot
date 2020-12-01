@@ -13,7 +13,7 @@ export class ZennClient implements ApiClient {
     axios.defaults.baseURL = this.BASE_API_URL;
   }
 
-  async fetchIndex() {
+  async fetchIndex(): Promise<ZennIndex> {
     const articles = await this.fetchMyAllArticles();
     const followers = await this.fetchMyFollowers();
 

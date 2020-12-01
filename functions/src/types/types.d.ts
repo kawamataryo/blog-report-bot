@@ -3,5 +3,29 @@ interface ApiClientConstructor {
 }
 
 interface ApiClient {
-  fetchIndex: () => Promise<Record<string, number>>;
+  fetchIndex: () => Promise<QiitaIndex | TwitterIndex | ZennIndex | NoteIndex>;
+}
+
+interface TwitterIndex {
+  tweetCount: number;
+  followersCount: number;
+  followingCount: number;
+}
+
+interface QiitaIndex {
+  postCount: number;
+  lgtmCount: number;
+  followerCount: number;
+}
+
+interface ZennIndex {
+  postCount: number;
+  likeCount: number;
+  followerCount: number;
+}
+
+interface NoteIndex {
+  postCount: number;
+  likeCount: number;
+  followerCount: number;
 }

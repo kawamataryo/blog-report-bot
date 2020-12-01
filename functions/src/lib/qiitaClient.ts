@@ -6,15 +6,14 @@ export class QiitaClient implements ApiClient {
   private readonly BASE_URL = "https://qiita.com/api/v2";
   private readonly PER_PAGE = 100;
 
-  constructor(
-    private userName: string,
-    private accessToken: string = functions.config().token.qiita
-  ) {
+  constructor(private userName: string) {
     axios.defaults.baseURL = this.BASE_URL;
-    axios.defaults.headers["Authorization"] = `Bearer ${this.accessToken}`;
+    axios.defaults.headers["Authorization"] = `Bearer ${
+      functions.config().token.qiita
+    }`;
   }
 
-  async fetchIndex() {
+  async fetchIndex(): Promise<QiitaIndex> {
     const user = await this.fetchUser();
     const items = await this.fetchAllItems(user);
     const lgtmCount = this.tallyUpLgtmCount(items);

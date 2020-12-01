@@ -12,7 +12,7 @@ export class NoteClient implements ApiClient {
     axios.defaults.baseURL = this.BASE_URL;
   }
 
-  async fetchIndex() {
+  async fetchIndex(): Promise<NoteIndex> {
     const user = await this.fetchUser();
     const contents = await this.fetchAllContent();
 

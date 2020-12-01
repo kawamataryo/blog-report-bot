@@ -4,7 +4,7 @@ export const responseHandler = async (
   request: functions.Request,
   response: functions.Response,
   client: ApiClientConstructor
-) => {
+): Promise<void> => {
   if (!request.query.user) {
     response.status(400).send("Bad request. user parameter is required");
     return;
