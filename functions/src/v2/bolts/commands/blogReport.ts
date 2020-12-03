@@ -1,4 +1,4 @@
-import { App, Context } from "@slack/bolt";
+import { App } from "@slack/bolt";
 import { QiitaClient } from "../../../lib/qiitaClient";
 import { ZennClient } from "../../../lib/zennClient";
 import { TwitterClient } from "../../../lib/twitterClient";
@@ -86,14 +86,16 @@ export const useBlogReportCommand = (app: App) => {
     }
   });
 
-  async function extracted(
-    qiitaUser: any,
-    zennUser: any,
-    noteUser: any,
-    twitterUser: any,
-    context: Context,
-    channelId: string
-  ) {
+  app.view(VIEW_ID, async ({ ack, view, context, body }) => {
+    await ack();
+    const values = view.state.values;
+    const channelId = view.private_metadata;
+
+    const qiitaUser = values.qiita_block.qiita_user.value;
+    const zennUser = values.zenn_block.zenn_user.value;
+    const noteUser = values.note_block.note_user.value;
+    const twitterUser = values.twitter_block.twitter_user.value;
+
     // apiClientの処理
     const qiitaIndex = await new QiitaClient(qiitaUser).fetchIndex();
     const zennIndex = await new ZennClient(zennUser).fetchIndex();
@@ -105,25 +107,5 @@ export const useBlogReportCommand = (app: App) => {
       channel: channelId,
       text: JSON.stringify({ qiitaIndex, zennIndex, noteIndex, twitterIndex }),
     });
-  }
-
-  app.view(VIEW_ID, async ({ ack, view, context, body }) => {
-    await ack();
-    const values = view.state.values;
-    const channelId = view.private_metadata;
-
-    const qiitaUser = values.qiita_block.qiita_user.value;
-    const zennUser = values.zenn_block.zenn_user.value;
-    const noteUser = values.note_block.note_user.value;
-    const twitterUser = values.twitter_block.twitter_user.value;
-    // eslint-disable-next-line
-    await extracted(
-      qiitaUser,
-      zennUser,
-      noteUser,
-      twitterUser,
-      context,
-      channelId
-    );
   });
 };
