@@ -4,8 +4,7 @@ import { ZennClient } from "../lib/zennClient";
 import { NoteClient } from "../lib/noteClient";
 import { responseHandler } from "../lib/responseHandler";
 import { TwitterClient } from "../lib/twitterClient";
-
-const REGION = "asia-northeast1";
+import { REGION } from "../lib/constants";
 
 export const qiita = functions
   .region(REGION)
