@@ -96,16 +96,24 @@ export const useBlogReportCommand = (app: App) => {
     const noteUser = values.note_block.note_user.value;
     const twitterUser = values.twitter_block.twitter_user.value;
 
-    // apiClientの処理
+    // 指標の取得
     const qiitaIndex = await new QiitaClient(qiitaUser).fetchIndex();
     const zennIndex = await new ZennClient(zennUser).fetchIndex();
     const noteIndex = await new NoteClient(noteUser).fetchIndex();
     const twitterIndex = await new TwitterClient(twitterUser).fetchIndex();
 
+    // TODO: 投稿のblock形式への整形.
+    const text = JSON.stringify({
+      qiitaIndex,
+      zennIndex,
+      noteIndex,
+      twitterIndex,
+    });
+
     await app.client.chat.postMessage({
       token: context.botToken,
       channel: channelId,
-      text: JSON.stringify({ qiitaIndex, zennIndex, noteIndex, twitterIndex }),
+      text: text,
     });
   });
 };
