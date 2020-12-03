@@ -1,0 +1,14 @@
+v1:
+  user:
+    chanell
+    blog:
+      qiita: string
+      zenn: string
+      note: string
+      twitter: string
+    index:
+      date: string
+      qiita: object
+      note: object
+      zenn: object
+      twitter: object
