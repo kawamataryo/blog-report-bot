@@ -29,6 +29,7 @@ type PostQueue = {
   qiitaUser: string;
   noteUser: string;
   twitterUser: string;
+  comment: string;
 };
 
 export const onCreate = functions
@@ -61,6 +62,7 @@ export const onCreate = functions
         qiitaUser: docData.qiitaUser,
         noteUser: docData.noteUser,
         twitterUser: docData.twitterUser,
+        comment: docData.comment,
         zennIndex,
         qiitaIndex,
         noteIndex,

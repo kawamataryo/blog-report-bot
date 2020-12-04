@@ -8,6 +8,7 @@ export const createReportBlock = ({
   qiitaIndex,
   noteIndex,
   twitterIndex,
+  comment,
 }: {
   createdAt: string;
   zennUser: string | null;
@@ -18,6 +19,7 @@ export const createReportBlock = ({
   qiitaIndex: QiitaIndex | null;
   noteIndex: NoteIndex | null;
   twitterIndex: TwitterIndex | null;
+  comment: string | null;
 }) => {
   const block = [
     {
@@ -43,6 +45,9 @@ export const createReportBlock = ({
   }
   if (noteUser && noteIndex) {
     block.push(...createNoteIndexBlock(noteUser, noteIndex));
+  }
+  if (comment) {
+    block.push(...createCommentBlock(comment));
   }
 
   return block;
@@ -192,6 +197,21 @@ const createTwitterIndexBlock = (user: string, index: TwitterIndex) => {
         image_url:
           "https://drive.google.com/uc?id=1R5__uM39n1cCOnIODr20WkK66x2UszYb",
         alt_text: "twitter thumbnail",
+      },
+    },
+    {
+      type: "divider",
+    },
+  ];
+};
+
+const createCommentBlock = (comment: string) => {
+  return [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `💬 *コメント*\n${comment}`,
       },
     },
     {

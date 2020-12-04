@@ -47,7 +47,7 @@ export const useBlogReportCommand = (app: App) => {
           callback_id: VIEW_ID,
           title: {
             type: "plain_text",
-            text: "Blog Report",
+            text: "📄 Blog Report",
           },
           blocks: [
             {
@@ -122,6 +122,24 @@ export const useBlogReportCommand = (app: App) => {
                 },
               },
             },
+            {
+              type: "input",
+              block_id: "comment_block",
+              optional: true,
+              label: {
+                type: "plain_text",
+                text: "コメント",
+              },
+              element: {
+                type: "plain_text_input",
+                action_id: "comment",
+                multiline: true,
+                placeholder: {
+                  type: "plain_text",
+                  text: "振り返り、投稿記事のリンク等",
+                },
+              },
+            },
           ],
           private_metadata: command.channel_id,
           submit: {
@@ -144,6 +162,7 @@ export const useBlogReportCommand = (app: App) => {
     const zennUser = values.zenn_block.zenn_user.value;
     const noteUser = values.note_block.note_user.value;
     const twitterUser = values.twitter_block.twitter_user.value;
+    const comment = values.comment_block.comment.value;
 
     await db.collection("post-queue").add({
       userId: body.user.id,
@@ -153,6 +172,7 @@ export const useBlogReportCommand = (app: App) => {
       zennUser,
       twitterUser,
       noteUser,
+      comment,
     });
   });
 };
