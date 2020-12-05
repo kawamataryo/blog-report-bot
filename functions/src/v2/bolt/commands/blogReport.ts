@@ -166,7 +166,9 @@ export const useBlogReportCommand = (app: App) => {
 
     await db.collection("post-queue").add({
       userId: body.user.id,
-      createdAt: DateTime.local().toFormat("yyyy/MM/dd HH:mm"),
+      createdAt: DateTime.local()
+        .setZone("Asia/Tokyo")
+        .toFormat("yyyy/MM/dd HH:mm"),
       channelId,
       qiitaUser,
       zennUser,
