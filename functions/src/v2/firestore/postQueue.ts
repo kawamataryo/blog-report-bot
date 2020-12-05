@@ -82,7 +82,9 @@ export const onCreate = functions
       .collection("reports")
       .add({
         ...docData,
-        postedAt: DateTime.local().setZone("Asia/Tokyo").toFormat("yyyy/MM/dd"),
+        postedAt: DateTime.local()
+          .setZone("Asia/Tokyo")
+          .toFormat("yyyy/MM/dd HH:mm"),
         zennIndex,
         qiitaIndex,
         noteIndex,
