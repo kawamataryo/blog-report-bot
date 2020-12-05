@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PublicMetrics, UsersResponse } from "../types/twitterTypes";
 import * as functions from "firebase-functions";
+import { ApiClient, TwitterIndex } from "../types/types";
 
 export class TwitterClient implements ApiClient {
   private readonly BASE_URL = "https://api.twitter.com/2";

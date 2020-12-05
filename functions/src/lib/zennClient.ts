@@ -5,6 +5,7 @@ import {
   ZennMyFollowersResponse,
 } from "../types/zennTypes";
 import axios from "axios";
+import { ApiClient, ZennIndex } from "../types/types";
 
 export class ZennClient implements ApiClient {
   private readonly BASE_API_URL = "https://api.zenn.dev";

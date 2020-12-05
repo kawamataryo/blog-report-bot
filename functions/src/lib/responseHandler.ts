@@ -1,4 +1,5 @@
 import * as functions from "firebase-functions";
+import { ApiClientConstructor } from "../types/types";
 
 export const responseHandler = async (
   request: functions.Request,

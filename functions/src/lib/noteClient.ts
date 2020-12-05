@@ -4,6 +4,7 @@ import {
   NoteContentsResponse,
   NoteUserResponse,
 } from "../types/noteTypes";
+import { ApiClient, NoteIndex } from "../types/types";
 
 export class NoteClient implements ApiClient {
   private readonly BASE_URL = "https://note.com/api/v2";

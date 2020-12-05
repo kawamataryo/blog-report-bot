@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import axios from "axios";
 import { QiitaItem, QiitaUser } from "../types/qiitaTypes";
+import { ApiClient, QiitaIndex } from "../types/types";
 
 export class QiitaClient implements ApiClient {
   private readonly BASE_URL = "https://qiita.com/api/v2";
