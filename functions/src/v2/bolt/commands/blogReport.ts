@@ -1,35 +1,9 @@
 import { App } from "@slack/bolt";
 import { DateTime } from "luxon";
 import { db } from "../../lib/db";
+import { findPreviousPost } from "../../lib/findPreviousPost";
 
 const VIEW_ID = "report";
-
-const findPreviousPost = async (userId: string) => {
-  const previousPost = {
-    qiitaUser: "",
-    zennUser: "",
-    twitterUser: "",
-    noteUser: "",
-  };
-
-  try {
-    const snapShot = await db
-      .collection("post-queue")
-      .where("userId", "==", userId)
-      .orderBy("createdAt", "desc")
-      .limit(1)
-      .get();
-    snapShot.forEach((d) => {
-      previousPost.qiitaUser = d.data().qiitaUser;
-      previousPost.zennUser = d.data().zennUser;
-      previousPost.twitterUser = d.data().twitterUser;
-      previousPost.noteUser = d.data().noteUser;
-    });
-  } catch (e) {
-    console.error("get previous post error", e);
-  }
-  return previousPost;
-};
 
 export const useBlogReportCommand = (app: App) => {
   app.command("/report", async ({ ack, body, context, command }) => {
@@ -164,6 +138,8 @@ export const useBlogReportCommand = (app: App) => {
     const twitterUser = values.twitter_block.twitter_user.value;
     const comment = values.comment_block.comment.value;
 
+    // post-queueへの保存
+    // post-queueへの保存をフックにFunctionsが起動して指標を集計、結果をPostする
     await db.collection("post-queue").add({
       userId: body.user.id,
       createdAt: DateTime.local()
