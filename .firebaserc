@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "posts-index"
+    "default": "posts-index",
+    "stage": "posts-index-stage"
   }
 }
