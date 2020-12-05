@@ -120,7 +120,7 @@ const createQiitaIndexBlock = (
       accessory: {
         type: "image",
         image_url:
-          "https://drive.google.com/uc?id=1bWoYzU4Jy0h3K_vpm84UcYPBGrxEVdgQ",
+          "https://storage.googleapis.com/posts-index.appspot.com/qiita.png",
         alt_text: "qiita thumbnail",
       },
     },
@@ -171,7 +171,7 @@ const createZennIndexBlock = (
       accessory: {
         type: "image",
         image_url:
-          "https://drive.google.com/uc?id=11WFXbNo0pB5-HnlqFDsfg7c01xCoPTMo",
+          "https://storage.googleapis.com/posts-index.appspot.com/zenn.png",
         alt_text: "zenn thumbnail",
       },
     },
@@ -222,7 +222,7 @@ const createNoteIndexBlock = (
       accessory: {
         type: "image",
         image_url:
-          "https://drive.google.com/uc?id=1_R0p9YWUo3UsyjbyhzN6knKYYBnnJqJ1",
+          "https://storage.googleapis.com/posts-index.appspot.com/note.jpeg",
         alt_text: "note thumbnail",
       },
     },
@@ -273,7 +273,7 @@ const createTwitterIndexBlock = (
       accessory: {
         type: "image",
         image_url:
-          "https://drive.google.com/uc?id=1R5__uM39n1cCOnIODr20WkK66x2UszYb",
+          "https://storage.googleapis.com/posts-index.appspot.com/twitter.png",
         alt_text: "twitter thumbnail",
       },
     },
