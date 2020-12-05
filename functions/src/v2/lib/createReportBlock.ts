@@ -1,3 +1,11 @@
+import {
+  NoteIndex,
+  PreviousReport,
+  QiitaIndex,
+  TwitterIndex,
+  ZennIndex,
+} from "../../types/types";
+
 export const createReportBlock = ({
   createdAt,
   zennUser,
@@ -9,6 +17,7 @@ export const createReportBlock = ({
   noteIndex,
   twitterIndex,
   comment,
+  previousReport,
 }: {
   createdAt: string;
   zennUser: string | null;
@@ -20,13 +29,16 @@ export const createReportBlock = ({
   noteIndex: NoteIndex | null;
   twitterIndex: TwitterIndex | null;
   comment: string | null;
+  previousReport: PreviousReport;
 }) => {
   const block = [
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `\n :bar_chart: Report ${createdAt}`,
+        text: `\n :bar_chart: Report ${createdAt} ${
+          previousReport.postedAt ? `(比較対象 ${previousReport.postedAt})` : ""
+        }`,
       },
     },
     {
@@ -35,16 +47,28 @@ export const createReportBlock = ({
   ];
 
   if (twitterUser && twitterIndex) {
-    block.push(...createTwitterIndexBlock(twitterUser, twitterIndex));
+    block.push(
+      ...createTwitterIndexBlock(
+        twitterUser,
+        twitterIndex,
+        previousReport.twitterIndex
+      )
+    );
   }
   if (qiitaUser && qiitaIndex) {
-    block.push(...createQiitaIndexBlock(qiitaUser, qiitaIndex));
+    block.push(
+      ...createQiitaIndexBlock(qiitaUser, qiitaIndex, previousReport.qiitaIndex)
+    );
   }
   if (zennUser && zennIndex) {
-    block.push(...createZennIndexBlock(zennUser, zennIndex));
+    block.push(
+      ...createZennIndexBlock(zennUser, zennIndex, previousReport.zennIndex)
+    );
   }
   if (noteUser && noteIndex) {
-    block.push(...createNoteIndexBlock(noteUser, noteIndex));
+    block.push(
+      ...createNoteIndexBlock(noteUser, noteIndex, previousReport.noteIndex)
+    );
   }
   if (comment) {
     block.push(...createCommentBlock(comment));
@@ -53,7 +77,11 @@ export const createReportBlock = ({
   return block;
 };
 
-const createQiitaIndexBlock = (user: string, index: QiitaIndex) => {
+const createQiitaIndexBlock = (
+  user: string,
+  index: QiitaIndex,
+  previousIndex: QiitaIndex | null
+) => {
   return [
     {
       type: "section",
@@ -67,15 +95,24 @@ const createQiitaIndexBlock = (user: string, index: QiitaIndex) => {
       fields: [
         {
           type: "mrkdwn",
-          text: `*Qiita記事数:*\n${index.postCount}`,
+          text: `*Qiita記事数:*\n${indexWithDifferent(
+            index.postCount,
+            previousIndex?.postCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Qiita LGTM数:*\n${index.lgtmCount}`,
+          text: `*Qiita LGTM数:*\n${indexWithDifferent(
+            index.lgtmCount,
+            previousIndex?.lgtmCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Qiita フォロワー数:*\n${index.followerCount}`,
+          text: `*Qiita フォロワー数:*\n${indexWithDifferent(
+            index.followerCount,
+            previousIndex?.followerCount
+          )}`,
         },
       ],
       accessory: {
@@ -91,7 +128,11 @@ const createQiitaIndexBlock = (user: string, index: QiitaIndex) => {
   ];
 };
 
-const createZennIndexBlock = (user: string, index: ZennIndex) => {
+const createZennIndexBlock = (
+  user: string,
+  index: ZennIndex,
+  previousIndex: ZennIndex | null
+) => {
   return [
     {
       type: "section",
@@ -105,15 +146,24 @@ const createZennIndexBlock = (user: string, index: ZennIndex) => {
       fields: [
         {
           type: "mrkdwn",
-          text: `*Zenn 記事数:*\n${index.postCount}`,
+          text: `*Zenn 記事数:*\n${indexWithDifferent(
+            index.postCount,
+            previousIndex?.postCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Zenn LIKE数:*\n${index.likeCount}`,
+          text: `*Zenn LIKE数:*\n${indexWithDifferent(
+            index.likeCount,
+            previousIndex?.likeCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Zenn フォロワー数:*\n${index.followerCount}`,
+          text: `*Zenn フォロワー数:*\n${indexWithDifferent(
+            index.followerCount,
+            previousIndex?.followerCount
+          )}`,
         },
       ],
       accessory: {
@@ -129,7 +179,11 @@ const createZennIndexBlock = (user: string, index: ZennIndex) => {
   ];
 };
 
-const createNoteIndexBlock = (user: string, index: NoteIndex) => {
+const createNoteIndexBlock = (
+  user: string,
+  index: NoteIndex,
+  previousIndex: NoteIndex | null
+) => {
   return [
     {
       type: "section",
@@ -143,15 +197,24 @@ const createNoteIndexBlock = (user: string, index: NoteIndex) => {
       fields: [
         {
           type: "mrkdwn",
-          text: `*note 記事数:*\n${index.postCount}`,
+          text: `*note 記事数:*\n${indexWithDifferent(
+            index.postCount,
+            previousIndex?.postCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*note Like数:*\n${index.likeCount}`,
+          text: `*note Like数:*\n${indexWithDifferent(
+            index.likeCount,
+            previousIndex?.likeCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*note フォロワー数:*\n${index.followerCount}`,
+          text: `*note フォロワー数:*\n${indexWithDifferent(
+            index.followerCount,
+            previousIndex?.followerCount
+          )}`,
         },
       ],
       accessory: {
@@ -167,7 +230,11 @@ const createNoteIndexBlock = (user: string, index: NoteIndex) => {
   ];
 };
 
-const createTwitterIndexBlock = (user: string, index: TwitterIndex) => {
+const createTwitterIndexBlock = (
+  user: string,
+  index: TwitterIndex,
+  previousIndex: TwitterIndex | null
+) => {
   return [
     {
       type: "section",
@@ -181,15 +248,24 @@ const createTwitterIndexBlock = (user: string, index: TwitterIndex) => {
       fields: [
         {
           type: "mrkdwn",
-          text: `*Twitterツイート数:*\n${index.tweetCount}`,
+          text: `*Twitterツイート数:*\n${indexWithDifferent(
+            index.tweetCount,
+            previousIndex?.tweetCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Twitterフォロー数:*\n${index.followingCount}`,
+          text: `*Twitterフォロー数:*\n${indexWithDifferent(
+            index.followingCount,
+            previousIndex?.followingCount
+          )}`,
         },
         {
           type: "mrkdwn",
-          text: `*Twitterフォロワー数:*\n${index.followersCount}`,
+          text: `*Twitterフォロワー数:*\n${indexWithDifferent(
+            index.followersCount,
+            previousIndex?.followersCount
+          )}`,
         },
       ],
       accessory: {
@@ -218,4 +294,14 @@ const createCommentBlock = (comment: string) => {
       type: "divider",
     },
   ];
+};
+
+const indexWithDifferent = (current: number, previous: number | undefined) => {
+  return previous
+    ? `${current} (${numWithSign(current - previous)})`
+    : `${current}`;
+};
+
+const numWithSign = (num: number) => {
+  return num >= 0 ? `+${num}` : num;
 };

@@ -29,3 +29,11 @@ interface NoteIndex {
   likeCount: number;
   followerCount: number;
 }
+
+export type PreviousReport = {
+  postedAt: string | null,
+  qiitaIndex: QiitaIndex | null,
+  noteIndex: ZennIndex | null,
+  twitterIndex: TwitterIndex | null,
+  zennIndex: ZennIndex | null,
+}

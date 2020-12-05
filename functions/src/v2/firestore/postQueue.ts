@@ -8,6 +8,7 @@ import { NoteClient } from "../../lib/noteClient";
 import { createReportBlock } from "../lib/createReportBlock";
 import { DateTime } from "luxon";
 import { db } from "../lib/db";
+import { findPreviousReport } from "../lib/findPreviousReport";
 
 const config = functions.config();
 
@@ -51,6 +52,9 @@ export const onCreate = functions
       ? await new QiitaClient(docData.qiitaUser).fetchIndex()
       : null;
 
+    // 過去指標の取得
+    const previousReport = await findPreviousReport(docData.userId);
+
     // チャネルへのPOST
     await app.client.chat.postMessage({
       token: config.slack.bot_token,
@@ -67,6 +71,7 @@ export const onCreate = functions
         qiitaIndex,
         noteIndex,
         twitterIndex,
+        previousReport,
       }),
     });
 
