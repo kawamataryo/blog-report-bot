@@ -23,6 +23,7 @@ app.error(async (e) => {
 });
 
 type PostQueue = {
+  userName: string;
   userId: string;
   createdAt: string;
   channelId: string;
@@ -61,6 +62,7 @@ export const onCreate = functions
       channel: docData.channelId,
       text: "",
       blocks: createReportBlock({
+        userName: docData.userName,
         createdAt: docData.createdAt,
         zennUser: docData.zennUser,
         qiitaUser: docData.qiitaUser,

@@ -131,6 +131,7 @@ export const useBlogReportCommand = (app: App) => {
     await ack();
     const values = view.state.values;
     const channelId = view.private_metadata;
+    const user = body.user;
 
     const qiitaUser = values.qiita_block.qiita_user.value;
     const zennUser = values.zenn_block.zenn_user.value;
@@ -141,7 +142,8 @@ export const useBlogReportCommand = (app: App) => {
     // post-queueへの保存
     // post-queueへの保存をフックにFunctionsが起動して指標を集計、結果をPostする
     await db.collection("post-queue").add({
-      userId: body.user.id,
+      userId: user.id,
+      userName: user.name,
       createdAt: DateTime.local()
         .setZone("Asia/Tokyo")
         .toFormat("yyyy/MM/dd HH:mm"),

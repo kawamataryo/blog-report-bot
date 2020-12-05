@@ -7,6 +7,7 @@ import {
 } from "../../types/types";
 
 export const createReportBlock = ({
+  userName,
   createdAt,
   zennUser,
   qiitaUser,
@@ -19,6 +20,7 @@ export const createReportBlock = ({
   comment,
   previousReport,
 }: {
+  userName: string;
   createdAt: string;
   zennUser: string | null;
   qiitaUser: string | null;
@@ -36,7 +38,7 @@ export const createReportBlock = ({
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `\n :bar_chart: Report ${createdAt} ${
+        text: `\n :bar_chart: @${userName}'s Report \n ${createdAt}時点 ${
           previousReport.postedAt ? `(比較対象 ${previousReport.postedAt})` : ""
         }`,
       },
