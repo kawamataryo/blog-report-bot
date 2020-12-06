@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "posts-index",
+    "prod": "posts-index",
     "stage": "posts-index-stage"
   }
 }
