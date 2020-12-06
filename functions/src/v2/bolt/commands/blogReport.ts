@@ -2,8 +2,11 @@ import { App } from "@slack/bolt";
 import { DateTime } from "luxon";
 import { db } from "../../lib/db";
 import { findPreviousPost } from "../../lib/findPreviousPost";
+import * as functions from "firebase-functions";
 
 const VIEW_ID = "report";
+
+const config = functions.config();
 
 export const useBlogReportCommand = (app: App) => {
   app.command("/report", async ({ ack, body, context, command }) => {
@@ -124,6 +127,13 @@ export const useBlogReportCommand = (app: App) => {
       });
     } catch (error) {
       console.error(error);
+      await app.client.chat.postEphemeral({
+        token: config.slack.bot_token,
+        channel: body.channel_id,
+        user: body.user.id,
+        text:
+          "⚠️ モーダルの表示に失敗しました。アプリ管理者にお問い合わせてください。",
+      });
     }
   });
 
@@ -141,18 +151,29 @@ export const useBlogReportCommand = (app: App) => {
 
     // post-queueへの保存
     // post-queueへの保存をフックにFunctionsが起動して指標を集計、結果をPostする
-    await db.collection("post-queue").add({
-      userId: user.id,
-      userName: user.name,
-      createdAt: DateTime.local()
-        .setZone("Asia/Tokyo")
-        .toFormat("yyyy/MM/dd HH:mm"),
-      channelId,
-      qiitaUser,
-      zennUser,
-      twitterUser,
-      noteUser,
-      comment,
-    });
+    try {
+      await db.collection("post-queue").add({
+        userId: user.id,
+        userName: user.name,
+        createdAt: DateTime.local()
+          .setZone("Asia/Tokyo")
+          .toFormat("yyyy/MM/dd HH:mm"),
+        channelId,
+        qiitaUser,
+        zennUser,
+        twitterUser,
+        noteUser,
+        comment,
+      });
+    } catch (e) {
+      console.log(e);
+      await app.client.chat.postEphemeral({
+        token: config.slack.bot_token,
+        channel: channelId,
+        user: user.id,
+        text:
+          "⚠️ データの送信に失敗しました。アプリ管理者にお問い合わせてください。",
+      });
+    }
   });
 };
