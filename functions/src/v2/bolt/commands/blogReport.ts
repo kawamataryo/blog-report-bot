@@ -1,8 +1,8 @@
 import { App } from "@slack/bolt";
-import { DateTime } from "luxon";
 import { db } from "../../lib/db";
 import { findPreviousPost } from "../../lib/findPreviousPost";
 import * as functions from "firebase-functions";
+import { currentDateTimeWithFormat } from "../../lib/dateTime";
 
 const VIEW_ID = "report";
 
@@ -155,9 +155,7 @@ export const useBlogReportCommand = (app: App) => {
       await db.collection("post-queue").add({
         userId: user.id,
         userName: user.name,
-        createdAt: DateTime.local()
-          .setZone("Asia/Tokyo")
-          .toFormat("yyyy/MM/dd HH:mm"),
+        createdAt: currentDateTimeWithFormat(),
         channelId,
         qiitaUser,
         zennUser,

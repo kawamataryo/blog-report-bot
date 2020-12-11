@@ -6,9 +6,9 @@ import { TwitterClient } from "../../lib/twitterClient";
 import { QiitaClient } from "../../lib/qiitaClient";
 import { NoteClient } from "../../lib/noteClient";
 import { createReportBlock } from "../lib/createReportBlock";
-import { DateTime } from "luxon";
 import { db } from "../lib/db";
 import { findPreviousReport } from "../lib/findPreviousReport";
+import { currentDateTimeWithFormat } from "../lib/dateTime";
 
 const config = functions.config();
 
@@ -85,9 +85,7 @@ export const onCreate = functions
         .collection("reports")
         .add({
           ...docData,
-          postedAt: DateTime.local()
-            .setZone("Asia/Tokyo")
-            .toFormat("yyyy/MM/dd HH:mm"),
+          postedAt: currentDateTimeWithFormat(),
           zennIndex,
           qiitaIndex,
           noteIndex,
