@@ -5,6 +5,7 @@ import {
   TwitterIndex,
   ZennIndex,
 } from "../../types/types";
+import { formattedDateTimeToFormattedDate } from "./dateTime";
 
 export const createReportBlock = ({
   userName,
@@ -38,8 +39,24 @@ export const createReportBlock = ({
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `\n :bar_chart: @${userName}'s Report \n ${createdAt}時点 ${
-          previousReport.postedAt ? `(比較対象 ${previousReport.postedAt})` : ""
+        text: `Posted by @${userName}`,
+      },
+    },
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: `📊 Report`,
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `${formattedDateTimeToFormattedDate(createdAt)}${
+          previousReport.postedAt
+            ? ` ←️ ${formattedDateTimeToFormattedDate(previousReport.postedAt)}`
+            : ""
         }`,
       },
     },

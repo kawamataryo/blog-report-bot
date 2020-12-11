@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { currentDateTime, DATE_FORMAT } from "./dateTime";
+import { currentDateTime, DATE_TIME_FORMAT } from "./dateTime";
 
 const PREVIOUS_DATE = 5;
 
@@ -21,7 +21,9 @@ export const findPreviousReport = async (userId: string) => {
       .where(
         "postedAt",
         "<",
-        currentDateTime().minus({ day: PREVIOUS_DATE }).toFormat(DATE_FORMAT)
+        currentDateTime()
+          .minus({ day: PREVIOUS_DATE })
+          .toFormat(DATE_TIME_FORMAT)
       )
       .orderBy("postedAt", "desc")
       .limit(1)
