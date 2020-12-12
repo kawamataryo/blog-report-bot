@@ -17,4 +17,4 @@ Get index the following service.
 
 Post your blog index to slack.
 
-![ezgif com-gif-maker (6)](https://user-images.githubusercontent.com/11070996/101171259-da3cd400-3682-11eb-82bd-bba3bb5874f2.gif)
+![](https://i.gyazo.com/bdb8e8a5ea3c7146119420b02c01a777.gif)
