@@ -24,7 +24,7 @@ export const useBlogReportCommand = (app: App) => {
           callback_id: VIEW_ID,
           title: {
             type: "plain_text",
-            text: "📄 Blog Report",
+            text: "Report",
           },
           blocks: [
             {
