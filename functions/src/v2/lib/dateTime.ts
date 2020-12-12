@@ -9,5 +9,7 @@ export const currentDateTime = () => DateTime.local().setZone(TIME_ZONE);
 export const currentDateTimeWithFormat = () =>
   DateTime.local().setZone(TIME_ZONE).toFormat(DATE_TIME_FORMAT);
 
-export const formattedDateTimeToFormattedDate = (datetime: string) =>
-  DateTime.fromFormat(datetime, DATE_TIME_FORMAT).toFormat(DATE_FORMAT);
+export const formattedDateTimeToFormattedDate = (datetime: string) => {
+  const d = DateTime.fromFormat(datetime, DATE_TIME_FORMAT);
+  return d.isValid ? d.toFormat(DATE_FORMAT) : datetime;
+};
