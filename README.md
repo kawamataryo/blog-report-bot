@@ -1,20 +1,16 @@
-# Blog Index（wip）
+# blog-report-bot
 
-An app to aggregate index a tech blog with cloud functions.
+A Slack bot for aggregate blog metrics.
+
+![](https://i.gyazo.com/bdb8e8a5ea3c7146119420b02c01a777.gif)
 
 ## Feature
 
-### Create blog index API
+Aggregate the metrics of the following services and post them to your slack channel.
 
-Get index the following service.
-
-- [Qiita](https://qiita.com/)
-- [note](https://note.com/)
-- [Zenn](https://zenn.dev/)
-- [Twitter](https://developer.twitter.com/en)
-
-### Create slack Bot 
-
-Post your blog index to slack.
-
-![](https://i.gyazo.com/bdb8e8a5ea3c7146119420b02c01a777.gif)
+|service|index|
+|---|---|
+|[Qiita](https://qiita.com/)|post count, lgtm count, follower count |
+|[note](https://note.com/)|post count, like count, follower count |
+|[Zenn](https://zenn.dev/)|post count, like count, follower count |
+|[Twitter](https://developer.twitter.com/en)|tweet count, follow count, follower count |
