@@ -27,7 +27,7 @@ export class ZennClient implements ApiClient {
 
   private async fetchMyAllArticles(): Promise<ZennArticle[]> {
     const response = await axios.get<ZennMyArticlesResponse>(
-      `/users/${this.userName}/articles`
+      `/articles?username=${this.userName}&count=1000`
     );
     return response.data.articles ?? [];
   }
