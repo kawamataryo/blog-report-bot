@@ -11,43 +11,14 @@ export interface ZennUser {
   username: string;
   name: string;
   avatar_url: string;
+  total_liked_count: number;
+  articles_count: number;
+  books_count: number;
+  scraps_count: number;
+  follower_count: number;
+  following_count: number;
 }
 
-export interface ZennArticle {
-  id: number;
-  title: string;
-  slug: string;
-  published: boolean;
-  comments_count: number;
-  liked_count: number;
-  body_letters_count: number;
-  reading_time: number;
-  is_tech_badged: boolean;
-  is_idea_badged: boolean;
-  article_type: string;
-  emoji: string;
-  is_suspending_private: boolean;
-  excluded_from_list: boolean;
-  published_at: string;
-  body_updated_at?: string;
-  source_repo_updated_at: string;
-  created_at: string;
-  topics: ZennTopic[];
-  user?: null;
-}
-
-export interface ZennMyArticlesResponse {
-  articles: ZennArticle[];
-}
-
-export interface Follower {
-  id: number;
-  username: string;
-  name: string;
-  avatar_url: string;
-}
-
-export interface ZennMyFollowersResponse {
-  users: ZennUser[];
-  next_page: number | null;
+export interface ZennUserResponse {
+  user: ZennUser
 }
