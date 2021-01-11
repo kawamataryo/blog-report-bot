@@ -165,7 +165,7 @@ const createZennIndexBlock = (
       fields: [
         {
           type: "mrkdwn",
-          text: `*Zenn 記事数:*\n${indexWithDifferent(
+          text: `*Zenn 投稿数:*\n${indexWithDifferent(
             index.postCount,
             previousIndex?.postCount
           )}`,
