@@ -1,9 +1,4 @@
-import {
-  ZennArticle,
-  Follower,
-  ZennMyArticlesResponse,
-  ZennMyFollowersResponse,
-} from "../types/zennTypes";
+import { ZennUser, ZennUserResponse } from "../types/zennTypes";
 import axios from "axios";
 import { ApiClient, ZennIndex } from "../types/types";
 
@@ -15,45 +10,18 @@ export class ZennClient implements ApiClient {
   }
 
   async fetchIndex(): Promise<ZennIndex> {
-    const articles = await this.fetchMyAllArticles();
-    const followers = await this.fetchMyFollowers();
-
+    const user = await this.fetchUser();
     return {
-      postCount: articles.length,
-      likeCount: this.tallyUpLikeCount(articles),
-      followerCount: followers.length,
+      postCount: user.articles_count + user.books_count + user.scraps_count,
+      likeCount: user.total_liked_count,
+      followerCount: user.follower_count,
     };
   }
 
-  private async fetchMyAllArticles(): Promise<ZennArticle[]> {
-    const response = await axios.get<ZennMyArticlesResponse>(
-      `/articles?username=${this.userName}&count=1000`
+  async fetchUser(): Promise<ZennUser> {
+    const response = await axios.get<ZennUserResponse>(
+      `/users/${this.userName}`
     );
-    return response.data.articles ?? [];
-  }
-
-  private async fetchMyFollowers(): Promise<Follower[]> {
-    let followers = [] as Follower[];
-    let hasNextPage = true;
-
-    try {
-      for (let page = 1; hasNextPage; page++) {
-        const response = await axios.get<ZennMyFollowersResponse>(
-          `/users/${this.userName}/followers?page=${page}`
-        );
-        hasNextPage = !!response.data.next_page;
-        followers = [...followers, ...response.data.users];
-      }
-    } catch (e) {
-      console.error(e);
-    }
-
-    return followers;
-  }
-
-  private tallyUpLikeCount(articles: ZennArticle[]): number {
-    return articles.reduce<number>((count, article) => {
-      return count + article.liked_count;
-    }, 0);
+    return response.data.user;
   }
 }
