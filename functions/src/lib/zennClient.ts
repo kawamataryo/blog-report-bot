@@ -3,7 +3,7 @@ import axios from "axios";
 import { ApiClient, ZennIndex } from "../types/types";
 
 export class ZennClient implements ApiClient {
-  private readonly BASE_API_URL = "https://api.zenn.dev";
+  private readonly BASE_API_URL = "https://zenn.dev/api";
 
   constructor(private userName: string) {
     axios.defaults.baseURL = this.BASE_API_URL;
